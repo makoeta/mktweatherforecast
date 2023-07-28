@@ -5,7 +5,7 @@ body {
 
 
 .text {
-  margin-top: 10vh;
+  margin-top: 3vh;
   text-align: center;
   color: white;
   font-size: 17svh;
@@ -24,3 +24,10 @@ body {
   font-family: Bahnschrift;
 }
 
+.leaflet-container {
+  height: 50svh;
+  margin-left: 10svw;
+  margin-right: 10svw;
+
+  border-color: aliceblue;
+}
