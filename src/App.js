@@ -2,26 +2,27 @@ import './App.css';
 
 import "leaflet/dist/leaflet.css"
 
-import {MapContainer, Marker, Popup, TileLayer, useMapEvents} from "react-leaflet";
-import {useState} from "react";
-import {MarkerProps} from "react-leaflet";
+import {MapContainer, TileLayer, useMapEvents} from "react-leaflet";
+import {useEffect, useState} from "react";
 
 function App() {
 
+  const [mode, setMode] = useState('search');
+  const [latlng, setLatlng] = useState(null);
 
-  function GetLatLng() {
-    const [latlng, setLatlng] = useState(null);
 
-    useMapEvents({
-      click(e) {
-        setLatlng(e.latlng)
-        alert("Location set to: " + latlng)
-
-      }
-    })
-  }
 
   function Search() {
+
+    function GetLatLng() {
+      useMapEvents({
+        click(e) {
+          setLatlng(e.latlng)
+          setMode('weather')
+        }
+      })
+    }
+
     function LeafletMap({lat, lng, zoom = 6}) {
       return (
         <MapContainer center={[lat, lng]} zoom={zoom}>
@@ -45,10 +46,30 @@ function App() {
     );
   }
 
+  function Weather() {
 
-  let mode = "search"
+    useEffect(() => {
+      fetch('https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m,precipitation_probability&daily=weathercode&timezone=Europe%2FBerlin&forecast_days=3')
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
+    }, []);
+    return (
+      <div>
 
-  if (mode === "search") {
+      </div>
+    );
+  }
+
+
+  if (mode === "weather") {
+    console.log(latlng)
+    return (<Weather/>);
+  } else {
     return (<Search/>);
   }
 
