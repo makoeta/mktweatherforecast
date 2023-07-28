@@ -1,6 +1,6 @@
 # Read me!
 
-With this little project I want to learn some basics of the React framework.
+With this little project I want to learn some basics of the [React framework](https://react.dev).
 My vision is to make a map to click on and following to get some data about the weather of the current location.
 
 For this I use:
