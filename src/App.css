@@ -8,7 +8,7 @@ body {
   margin-top: 10vh;
   text-align: center;
   color: white;
-  font-size: 17vh;
+  font-size: 17svh;
   font-family: Bahnschrift;
 }
 
@@ -16,5 +16,11 @@ body {
   display: block;
   margin-right: auto;
   margin-left: auto;
+
+  width: 60%;
+  height: 11svh;
+
+  font-size: 8svh;
+  font-family: Bahnschrift;
 }
 

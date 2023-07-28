@@ -1,6 +1,6 @@
 import './App.css';
 
-function App() {
+function Search() {
   return (
     <div>
       <div className="text">How's the weather in...</div>
@@ -11,5 +11,21 @@ function App() {
     </div>
   );
 }
+
+function App() {
+
+  let mode = "search"
+
+
+
+  if (mode === "search") {
+    return (<Search/>);
+  }
+
+
+
+}
+
+
 
 export default App;
