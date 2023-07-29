@@ -4,28 +4,21 @@ import "leaflet/dist/leaflet.css"
 
 import {MapContainer, TileLayer, useMapEvents} from "react-leaflet";
 import {useEffect, useState} from "react";
+import axios from "axios";
+import useFetch from "./useFetch";
+import {LatLng} from "leaflet/src/geo";
 
 function App() {
 
   const [mode, setMode] = useState('search');
-  const [latlng, setLatlng] = useState([0,0]);
+  const [latlng, setLatlng] = useState(new LatLng(0, 0));
   const [weatherData, setWeatherData] = useState([])
 
+  const {data, loading, error} = useFetch("https://api.open-meteo.com/v1/forecast?latitude=" + latlng.lat + "&longitude=" + latlng.lng
+    + "&hourly=temperature_2m,precipitation_probability&forecast_days=3")
 
-  useEffect(() => { // get weather data from API
-    const apiUrl = "https://api.open-meteo.com/v1/forecast?latitude=" + latlng[0] + "&longitude=" + latlng[1] + "&hourly=temperature_2m,precipitation_probability&forecast_days=3";
-    fetch(apiUrl)
-      .then((res) => res.json())
-      .then((res) => {
-        setWeatherData(res)
-        console.log(res)
-        console.log("url: " + apiUrl)
-        console.log("latlng: " + latlng)
-      })
-      .catch((err) => {
-        console.log(err.message)
-      })
-  }, []);
+  if (loading) return <h1>Loading</h1>
+  if (error) console.log(error)
 
   function getData() {
     const apiUrl = "https://api.open-meteo.com/v1/forecast?latitude=" + latlng[0] + "&longitude=" + latlng[1] + "&hourly=temperature_2m,precipitation_probability&forecast_days=3";
@@ -77,7 +70,11 @@ function App() {
     );
   }
 
+
+
   function Weather() {
+    const test = latlng
+    console.log("TEST: " + test.lat)
 
     function onClickBack() {
       setMode("search")
@@ -97,13 +94,13 @@ function App() {
           </thead>
           <tbody>
           {
-            weatherData.hourly.time.map((item, index) => {
+            data.hourly.time.map((item, index) => {
               item = item.replace('T', ' at ');
               return (
                 <tr key={index}>
                   <td>{item}</td>
-                  <td>{weatherData.hourly.temperature_2m[index]} °C</td>
-                  <td>{weatherData.hourly.precipitation_probability[index]} %</td>
+                  <td>{data.hourly.temperature_2m[index]} °C</td>
+                  <td>{data.hourly.precipitation_probability[index]} %</td>
                 </tr>
               );
             })
@@ -117,6 +114,8 @@ function App() {
     );
   }
 
+
+  //return depending on mode
 
   if (mode === "weather") {
     return (<Weather/>);
