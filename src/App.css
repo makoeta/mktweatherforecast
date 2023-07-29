@@ -57,11 +57,19 @@ body {
 table {
   margin-right: 3%;
   margin-left: 3%;
-  border: 1px solid ghostwhite;
-  border-collapse: collapse;
   width: 95%;
+}
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
 }
 
 table thead tr th {
   color: white;
+}
+
+table tbody tr td {
+  color: white;
+  text-align: center;
 }
