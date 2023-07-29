@@ -9,7 +9,7 @@ import {LatLng} from "leaflet/src/geo";
 import {
   ComposedChart,
   Legend,
-  Line,
+  Line, ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis
@@ -86,14 +86,17 @@ function App() {
       <>
         <button className={"backButton"} onClick={onClickBack}>Back</button>
 
-        <ComposedChart width={1000} height={800} data={pData}>
-          <XAxis dataKey={"time"} interval={11}/>
-          <YAxis/>
-          <Line dataKey={"prob"} fill={"#8884d8"} activeDot={{ r: 8 }}/>
-          <Line type={"monotone"} dataKey={"temp"} stroke={"red"}/>
-          <Tooltip/>
-          <Legend/>
-        </ComposedChart>
+        <ResponsiveContainer width="90%" height={400}>
+          <ComposedChart data={pData}>
+            <XAxis dataKey={"time"} interval={11}/>
+            <YAxis/>
+            <Line dataKey={"prob"} fill={"#8884d8"} activeDot={{ r: 8 }}/>
+            <Line type={"monotone"} dataKey={"temp"} stroke={"red"}/>
+            <Tooltip/>
+            <Legend/>
+          </ComposedChart>
+        </ResponsiveContainer>
+
 
         <div className={"infotext"}> Weather data for <a className={"inforef"} href={"https://www.openstreetmap.org/#map=14/" + latlng.lat + "/" + latlng.lng} target={"_blank"}>{latlng.lat}/{latlng.lng}</a>.</div>
       </>
