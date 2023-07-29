@@ -89,7 +89,7 @@ function App() {
           </tbody>
         </table>
 
-        <a>Weather data for {latlng.toString()}</a>
+        <p> Weather data for {latlng.toString()}</p>
       </>
 
     );
