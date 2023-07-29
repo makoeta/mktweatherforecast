@@ -6,7 +6,19 @@ import {MapContainer, TileLayer, useMapEvents} from "react-leaflet";
 import {useState} from "react";
 import useFetch from "./useFetch";
 import {LatLng} from "leaflet/src/geo";
-import {CartesianGrid, Line, LineChart, Tooltip, XAxis, YAxis} from "recharts";
+import {
+  Area,
+  Bar,
+  CartesianGrid,
+  ComposedChart,
+  Legend,
+  Line,
+  LineChart, ReferenceLine,
+  ResponsiveContainer, Scatter,
+  Tooltip,
+  XAxis,
+  YAxis
+} from "recharts";
 
 function App() {
 
@@ -61,17 +73,11 @@ function App() {
     function onClickBack() {
       setMode("search")
     }
-
-    const tempData = data.hourly.temperature_2m.map(x => ({temp: x}))
-
-
-    console.log(tempData)
-
     const pData = [];
 
     for (let i = 0; i < data.hourly.time.length; i++) {
       const dayData = {
-        time: data.hourly.time[i].substring(11),
+        time: data.hourly.time[i].replace('T', ' '),
         temp: data.hourly.temperature_2m[i],
         prob: data.hourly.precipitation_probability[i]
       }
@@ -85,13 +91,13 @@ function App() {
       <>
         <button className={"backButton"} onClick={onClickBack}>Back</button>
 
-        <LineChart width={1000} height={800} data={pData}>
-          <XAxis dataKey={"time"}/>
-          <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+        <ComposedChart width={1000} height={800} data={pData}>
+          <XAxis dataKey={"time"} interval={11}/>
           <YAxis/>
-          <Line type={"monotone"} dataKey={"temp"} stroke={"#8884d8"}/>
+          <Line dataKey={"prob"} fill={"#8884d8"} activeDot={{ r: 8 }}/>
+          <Line type={"monotone"} dataKey={"temp"} stroke={"red"}/>
           <Tooltip/>
-        </LineChart>
+        </ComposedChart>
 
         <div className={"infotext"}> Weather data for <a className={"inforef"} href={"https://www.openstreetmap.org/#map=14/" + latlng.lat + "/" + latlng.lng} target={"_blank"}>{latlng.lat}/{latlng.lng}</a>.</div>
       </>
