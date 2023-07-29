@@ -89,7 +89,7 @@ function App() {
           </tbody>
         </table>
 
-        <p> Weather data for {latlng.toString()}</p>
+        <div className={"infotext"}> Weather data for <a className={"inforef"} href={"https://www.openstreetmap.org/#map=14/" + latlng.lat + "/" + latlng.lng} target={"_blank"}>{latlng.lat}/{latlng.lng}</a>.</div>
       </>
 
     );
