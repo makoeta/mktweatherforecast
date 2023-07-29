@@ -8,20 +8,39 @@ import {useEffect, useState} from "react";
 function App() {
 
   const [mode, setMode] = useState('search');
-  const [latlng, setLatlng] = useState([]);
+  const [latlng, setLatlng] = useState([0,0]);
   const [weatherData, setWeatherData] = useState([])
 
+
   useEffect(() => { // get weather data from API
-    fetch("https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m,precipitation_probability&forecast_days=3")
+    const apiUrl = "https://api.open-meteo.com/v1/forecast?latitude=" + latlng[0] + "&longitude=" + latlng[1] + "&hourly=temperature_2m,precipitation_probability&forecast_days=3";
+    fetch(apiUrl)
       .then((res) => res.json())
       .then((res) => {
         setWeatherData(res)
         console.log(res)
+        console.log("url: " + apiUrl)
+        console.log("latlng: " + latlng)
       })
       .catch((err) => {
         console.log(err.message)
       })
   }, []);
+
+  function getData() {
+    const apiUrl = "https://api.open-meteo.com/v1/forecast?latitude=" + latlng[0] + "&longitude=" + latlng[1] + "&hourly=temperature_2m,precipitation_probability&forecast_days=3";
+    return fetch(apiUrl)
+      .then((res) => res.json())
+      .then((res) => {
+        setWeatherData(res)
+        console.log(res)
+        console.log("url: " + apiUrl)
+        console.log("latlng: " + latlng)
+      })
+      .catch((err) => {
+        console.log(err.message)
+      });
+  }
 
 
   function Search() {
@@ -64,9 +83,6 @@ function App() {
       setMode("search")
     }
 
-    console.log(weatherData.hourly.time)
-
-
     return (
       <>
         <button className={"backButton"} onClick={onClickBack}>Back</button>
@@ -94,6 +110,8 @@ function App() {
           }
           </tbody>
         </table>
+
+        <a>Weather data for {latlng.toString()}</a>
       </>
 
     );
