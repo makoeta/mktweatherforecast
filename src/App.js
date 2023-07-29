@@ -8,15 +8,18 @@ import {useEffect, useState} from "react";
 function App() {
 
   const [mode, setMode] = useState('search');
-  const [latlng, setLatlng] = useState(null);
+  const [latlng, setLatlng] = useState([]);
   const [weatherData, setWeatherData] = useState([])
 
   useEffect(() => { // get weather data from API
-    fetch("https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m,precipitation_probability&daily=weathercode&timezone=Europe%2FBerlin&forecast_days=3")
+    fetch("https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m,precipitation_probability&forecast_days=3")
       .then((res) => res.json())
       .then((res) => {
         setWeatherData(res)
         console.log(res)
+      })
+      .catch((err) => {
+        console.log(err.message)
       })
   }, []);
 
@@ -83,6 +86,8 @@ function App() {
               return (
                 <tr key={index}>
                   <td>{item}</td>
+                  <td>{weatherData.hourly.temperature_2m[index]} °C</td>
+                  <td>{weatherData.hourly.precipitation_probability[index]} %</td>
                 </tr>
               );
             })
