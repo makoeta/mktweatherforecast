@@ -9,7 +9,16 @@ function App() {
 
   const [mode, setMode] = useState('search');
   const [latlng, setLatlng] = useState(null);
+  const [weatherData, setWeatherData] = useState([])
 
+  useEffect(() => { // get weather data from API
+    fetch("https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m,precipitation_probability&daily=weathercode&timezone=Europe%2FBerlin&forecast_days=3")
+      .then((res) => res.json())
+      .then((res) => {
+        setWeatherData(res)
+        console.log(res)
+      })
+  }, []);
 
 
   function Search() {
@@ -30,7 +39,7 @@ function App() {
             attribution={"&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors"}
             url={"https://tile.openstreetmap.org/{z}/{x}/{y}.png"}
           />
-          <GetLatLng />
+          <GetLatLng/>
         </MapContainer>
       );
     }
@@ -48,35 +57,51 @@ function App() {
 
   function Weather() {
 
-    useEffect(() => {
-      fetch('https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m,precipitation_probability&daily=weathercode&timezone=Europe%2FBerlin&forecast_days=3')
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-        })
-        .catch((err) => {
-          console.log(err.message);
-        });
-    }, []);
-    return (
-      <div>
+    function onClickBack() {
+      setMode("search")
+    }
 
-      </div>
+    console.log(weatherData.hourly.time)
+
+
+    return (
+      <>
+        <button className={"backButton"} onClick={onClickBack}>Back</button>
+
+        <table>
+          <thead>
+          <tr>
+            <th>Time</th>
+            <th>Temperature</th>
+            <th>Probability of Rain</th>
+          </tr>
+          </thead>
+          <tbody>
+          {
+            weatherData.hourly.time.map((item, index) => {
+              return (
+                <tr key={index}>
+                  <td>{item}</td>
+                </tr>
+              );
+            })
+          }
+          </tbody>
+        </table>
+      </>
+
     );
   }
 
 
   if (mode === "weather") {
-    console.log(latlng)
     return (<Weather/>);
   } else {
     return (<Search/>);
   }
 
 
-
 }
-
 
 
 export default App;

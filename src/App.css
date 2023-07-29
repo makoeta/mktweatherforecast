@@ -31,3 +31,37 @@ body {
 
   border-color: aliceblue;
 }
+
+.backButton {
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+}
+
+.backButton:hover {
+  background-color: black;
+  color: white;
+}
+
+
+
+table {
+  margin-right: 3%;
+  margin-left: 3%;
+  border: 1px solid ghostwhite;
+  border-collapse: collapse;
+  width: 95%;
+}
+
+table thead tr th {
+  color: white;
+}
