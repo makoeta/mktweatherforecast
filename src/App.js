@@ -6,7 +6,7 @@ import {MapContainer, TileLayer, useMapEvents} from "react-leaflet";
 import {useState} from "react";
 import useFetch from "./useFetch";
 import {LatLng} from "leaflet/src/geo";
-import {Line, LineChart, XAxis, YAxis} from "recharts";
+import {CartesianGrid, Line, LineChart, Tooltip, XAxis, YAxis} from "recharts";
 
 function App() {
 
@@ -64,12 +64,33 @@ function App() {
 
     const tempData = data.hourly.temperature_2m.map(x => ({temp: x}))
 
+
+    console.log(tempData)
+
+    const pData = [];
+
+    for (let i = 0; i < data.hourly.time.length; i++) {
+      const dayData = {
+        time: data.hourly.time[i].substring(11),
+        temp: data.hourly.temperature_2m[i],
+        prob: data.hourly.precipitation_probability[i]
+      }
+
+      pData.push(dayData)
+    }
+
+    console.log(pData)
+
     return (
       <>
         <button className={"backButton"} onClick={onClickBack}>Back</button>
 
-        <LineChart width={400} height={400} data={tempData}>
+        <LineChart width={1000} height={800} data={pData}>
+          <XAxis dataKey={"time"}/>
+          <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+          <YAxis/>
           <Line type={"monotone"} dataKey={"temp"} stroke={"#8884d8"}/>
+          <Tooltip/>
         </LineChart>
 
         <div className={"infotext"}> Weather data for <a className={"inforef"} href={"https://www.openstreetmap.org/#map=14/" + latlng.lat + "/" + latlng.lng} target={"_blank"}>{latlng.lat}/{latlng.lng}</a>.</div>
