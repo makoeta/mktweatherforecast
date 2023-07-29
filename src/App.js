@@ -7,14 +7,9 @@ import {useState} from "react";
 import useFetch from "./useFetch";
 import {LatLng} from "leaflet/src/geo";
 import {
-  Area,
-  Bar,
-  CartesianGrid,
   ComposedChart,
   Legend,
   Line,
-  LineChart, ReferenceLine,
-  ResponsiveContainer, Scatter,
   Tooltip,
   XAxis,
   YAxis
@@ -97,6 +92,7 @@ function App() {
           <Line dataKey={"prob"} fill={"#8884d8"} activeDot={{ r: 8 }}/>
           <Line type={"monotone"} dataKey={"temp"} stroke={"red"}/>
           <Tooltip/>
+          <Legend/>
         </ComposedChart>
 
         <div className={"infotext"}> Weather data for <a className={"inforef"} href={"https://www.openstreetmap.org/#map=14/" + latlng.lat + "/" + latlng.lng} target={"_blank"}>{latlng.lat}/{latlng.lng}</a>.</div>
@@ -105,9 +101,7 @@ function App() {
     );
   }
 
-
   //return depending on mode
-
   if (mode === "weather") {
     return (<Weather/>);
   } else {
