@@ -79,6 +79,7 @@ function App() {
           <tbody>
           {
             weatherData.hourly.time.map((item, index) => {
+              item = item.replace('T', ' at ');
               return (
                 <tr key={index}>
                   <td>{item}</td>
