@@ -6,6 +6,7 @@ import {MapContainer, TileLayer, useMapEvents} from "react-leaflet";
 import {useState} from "react";
 import useFetch from "./useFetch";
 import {LatLng} from "leaflet/src/geo";
+import {Line, LineChart, XAxis, YAxis} from "recharts";
 
 function App() {
 
@@ -61,33 +62,15 @@ function App() {
       setMode("search")
     }
 
+    const tempData = data.hourly.temperature_2m.map(x => ({temp: x}))
+
     return (
       <>
         <button className={"backButton"} onClick={onClickBack}>Back</button>
 
-        <table>
-          <thead>
-          <tr>
-            <th>Time</th>
-            <th>Temperature</th>
-            <th>Probability of Rain</th>
-          </tr>
-          </thead>
-          <tbody>
-          {
-            data.hourly.time.map((item, index) => {
-              item = item.replace('T', ' at ');
-              return (
-                <tr key={index}>
-                  <td>{item}</td>
-                  <td>{data.hourly.temperature_2m[index]} °C</td>
-                  <td>{data.hourly.precipitation_probability[index]} %</td>
-                </tr>
-              );
-            })
-          }
-          </tbody>
-        </table>
+        <LineChart width={400} height={400} data={tempData}>
+          <Line type={"monotone"} dataKey={"temp"} stroke={"#8884d8"}/>
+        </LineChart>
 
         <div className={"infotext"}> Weather data for <a className={"inforef"} href={"https://www.openstreetmap.org/#map=14/" + latlng.lat + "/" + latlng.lng} target={"_blank"}>{latlng.lat}/{latlng.lng}</a>.</div>
       </>
